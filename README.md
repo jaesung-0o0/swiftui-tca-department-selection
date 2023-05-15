@@ -86,6 +86,27 @@ var departments: [Department] {
 ## Store
 
 ```swift
+@main
+struct MyApp: App {
+    let initialState = DepartmentSelection.State(
+        selectedDepartment: nil, 
+        searchText: "", 
+        searchedDepartments: []
+    )
+    var body: some Scene {
+        WindowGroup {
+            ContentView(
+                store: Store(
+                    initialState: initialState, 
+                    reducer: { DepartmentSelection() }
+                )
+            )
+        }
+    }
+}
+```
+
+```swift
 struct ContentView: View {
     let store: StoreOf<DepartmentSelection>
     
@@ -120,6 +141,8 @@ struct ContentView: View {
     }
 }
 ```
+### Store 선언하기
+`DepartmentSelection` 은 `ReducerProtocol`를 채택하고 있기 때문에 `Store<State, Action>` 이 아닌 `StoreOf<ReducerProtocol>` typealias 형태의 타입으로 `Store` 상수를 선언했다.
 
 ### Binding 하기
 `TextField` 의 `text` 에 `Binding<String>` 타입의 값을 사용하기 위해 `viewStore.binding(get:send:)` 를 사용했다.
